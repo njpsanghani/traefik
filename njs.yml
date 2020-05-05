@@ -1,0 +1,26 @@
+version: "3.3"
+
+services:
+  helloworld:
+    image: tutum/hello-world:latest
+    networks:
+     - traefik-public
+    deploy:
+      labels:
+        - "traefik.enable=true"
+        - "traefik.http.routers.router1.service=service1"
+        - "traefik.http.routers.router1.rule=Path(`/traefik`)"
+        - "traefik.http.routers.router1.entrypoints=web"
+        - "traefik.http.services.service1.loadbalancer.server.port=80"
+        - "traefik.http.routers.router2.service=service2"
+        - "traefik.http.routers.router2.rule=Path(`/traefik1`)"
+        - "traefik.http.routers.router2.entrypoints=web"
+        - "traefik.http.services.service2.loadbalancer.server.port=80"
+#        - "traefik.http.routers.router3.rule=Path(`/traefik2`)"
+#        - "traefik.http.routers.router3.entrypoints=web"
+#        - "traefik.http.routers.router3.service=service3"
+#        - "traefik.http.services.service3.loadbalancer.server.port=80"
+networks:
+  traefik-public:
+    external: true
+
